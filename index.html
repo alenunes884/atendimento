@@ -3,466 +3,259 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Infográfico de Desempenho do Suporte</title>
+    <title>Painel de Suporte - Internet Mais/Freeway (Apresentação)</title>
+    <!-- Incluindo o Tailwind CSS para um design moderno -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Incluindo a biblioteca Chart.js para os gráficos -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f8fafc;
         }
         .chart-container {
             position: relative;
+            height: 350px;
             width: 100%;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-            height: 380px;
-            max-height: 50vh;
         }
-        .donut-chart-container {
-            position: relative;
-            width: 100%;
-            max-width: 160px;
-            margin-left: auto;
-            margin-right: auto;
-            height: 160px;
+        .card-glow {
+            transition: box-shadow 0.3s ease-in-out;
         }
-        .kpi-card {
-            background-color: #003F5C;
-            color: white;
-            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-        }
-        .card {
-            background-color: white;
-            border-radius: 1rem;
-            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-            padding: 2rem;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        .card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
-        }
-        .flow-step {
-            border: 2px solid #BC5090;
-            background-color: #fef2f8;
-            color: #832763;
-            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
-        }
-        .flow-arrow {
-            font-size: 2.5rem;
-            color: #BC5090;
-            line-height: 1;
+        .card-glow:hover {
+            box-shadow: 0 0 15px rgba(56, 189, 248, 0.2);
         }
     </style>
 </head>
-<body class="text-gray-800">
+<body class="bg-slate-900 text-gray-200">
 
-    <div class="container mx-auto p-4 md:p-10">
+    <div class="container mx-auto p-4 sm:p-6 lg:p-8">
+        <!-- Cabeçalho -->
+        <header class="bg-gradient-to-r from-slate-800 to-slate-900 border border-slate-700 shadow-lg rounded-lg p-6 mb-8">
+            <h1 class="text-2xl sm:text-3xl font-bold text-white">Relatório da Equipe de Suporte</h1>
+            <p class="text-gray-400 mt-1">Internet Mais / Freeway</p>
+            
+            <!-- 
+            +----------------------------------+
+            |                                  |
+            |   <<<< EDITE O MÊS AQUI >>>>     |
+            |                                  |
+            +----------------------------------+
+            -->
+            <p id="report-month" class="text-lg font-semibold text-cyan-400 mt-2">Relatório de Julho/2025</p>
 
-        <header class="text-center mb-16 pt-8">
-            <h1 class="text-5xl md:text-6xl font-extrabold text-[#003F5C] mb-4 leading-tight">Infográfico: Desempenho da Equipe de Suporte</h1>
-            <p class="text-xl text-gray-600 max-w-3xl mx-auto">Uma análise aprofundada dos principais indicadores de performance dos últimos 30 dias.</p>
         </header>
 
-        <section id="kpis" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
-            <div class="kpi-card p-7 rounded-xl text-center transition-transform hover:scale-105">
-                <h3 class="text-lg font-semibold text-gray-300 mb-2">Total de Atendimentos</h3>
-                <p class="text-6xl font-extrabold text-white">897</p>
-                <p class="text-sm text-gray-400 mt-2">OPA + IXC</p>
-            </div>
-            <div class="kpi-card p-7 rounded-xl text-center transition-transform hover:scale-105">
-                <h3 class="text-lg font-semibold text-gray-300 mb-2">Total de OS Finalizadas</h3>
-                <p class="text-6xl font-extrabold text-white">1104</p>
-                <p class="text-sm text-gray-400 mt-2">Incluindo Matheus</p>
-            </div>
-             <div class="kpi-card p-7 rounded-xl text-center transition-transform hover:scale-105">
-                <h3 class="text-lg font-semibold text-gray-300 mb-2">Nota Média da Equipe</h3>
-                <p class="text-6xl font-extrabold text-white">4.48</p>
-                <p class="text-sm text-gray-400 mt-2">Satisfação do Cliente (OPA)</p>
-            </div>
-            <div class="kpi-card p-7 rounded-xl text-center transition-transform hover:scale-105">
-                <h3 class="text-lg font-semibold text-gray-300 mb-2">Mais Eficiente</h3>
-                <p class="text-6xl font-extrabold text-white">Ricardo</p>
-                <p class="text-sm text-gray-400 mt-2">47.6 min / Atendimento OPA</p>
-            </div>
-        </section>
-
-        <section id="workload" class="mb-20">
-            <div class="card">
-                <h2 class="text-3xl font-bold mb-4 text-[#003F5C]">Distribuição da Carga de Trabalho</h2>
-                <p class="text-gray-600 mb-8 leading-relaxed">Este gráfico compara o volume total de atendimentos por agente, segmentado pelos canais OPA e IXC. Ele destaca a especialização da equipe, com focos claros em cada plataforma de atendimento.</p>
-                <div class="chart-container">
-                    <canvas id="stackedBarChart"></canvas>
+        <!-- Resumo Geral -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <!-- Card Total Atendimentos -->
+            <div class="bg-slate-800 border border-slate-700 shadow-md rounded-lg p-6 flex items-center card-glow">
+                <div class="bg-cyan-900/50 p-3 rounded-full mr-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-cyan-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-400">Total Atendimentos</h3>
+                    <p id="total-tickets" class="text-3xl font-bold text-cyan-400 mt-1">0</p>
                 </div>
             </div>
-        </section>
-
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 mb-20">
-            <section id="productivity">
-                <div class="card h-full">
-                    <h2 class="text-3xl font-bold mb-4 text-[#003F5C]">Produtividade em Ordens de Serviço (IXC)</h2>
-                    <p class="text-gray-600 mb-8 leading-relaxed">A finalização de Ordens de Serviço (OS) é uma métrica crucial para avaliar a produtividade. Com os dados de Matheus incluídos, obtemos uma visão completa da contribuição de cada membro neste aspecto.</p>
-                    <div class="chart-container">
-                        <canvas id="horizontalBarChart"></canvas>
-                    </div>
+            <!-- Card Total OS IXC -->
+            <div class="bg-slate-800 border border-slate-700 shadow-md rounded-lg p-6 flex items-center card-glow">
+                 <div class="bg-teal-900/50 p-3 rounded-full mr-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-teal-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" /></svg>
                 </div>
-            </section>
-
-            <section id="quality-efficiency">
-                <div class="card h-full">
-                    <h2 class="text-3xl font-bold mb-4 text-[#003F5C]">Qualidade vs. Eficiência (Atendimentos OPA)</h2>
-                    <p class="text-gray-600 mb-8 leading-relaxed">Este gráfico ilustra a relação entre a satisfação do cliente (eixo Y) e o tempo médio de atendimento (eixo X). O tamanho da bolha reflete o volume de atendimentos OPA, oferecendo insights sobre a performance combinada.</p>
-                    <div class="chart-container">
-                        <canvas id="bubbleChart"></canvas>
-                    </div>
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-400">Total OS IXC</h3>
+                    <p id="total-os" class="text-3xl font-bold text-teal-300 mt-1">0</p>
                 </div>
-            </section>
+            </div>
+            <!-- Card Média Nota OPA -->
+            <div class="bg-slate-800 border border-slate-700 shadow-md rounded-lg p-6 flex items-center card-glow">
+                <div class="bg-sky-900/50 p-3 rounded-full mr-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-sky-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.196-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.783-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" /></svg>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-400">Média Nota OPA</h3>
+                    <p id="avg-nota" class="text-3xl font-bold text-sky-400 mt-1">0.00</p>
+                </div>
+            </div>
+            <!-- Card Média TMA OPA -->
+            <div class="bg-slate-800 border border-slate-700 shadow-md rounded-lg p-6 flex items-center card-glow">
+                <div class="bg-purple-900/50 p-3 rounded-full mr-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-400">Média TMA OPA</h3>
+                    <p id="avg-tma" class="text-3xl font-bold text-purple-400 mt-1">0</p>
+                    <span class="text-sm text-gray-500">minutos</span>
+                </div>
+            </div>
         </div>
-        
-        <section id="agent-analysis" class="mb-20">
-             <h2 class="text-4xl font-bold text-center mb-10 text-[#003F5C]">Análise Individual por Atendente</h2>
-             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
-                
-                <div class="card text-center flex flex-col justify-between items-center p-6">
-                    <h3 class="text-2xl font-bold text-[#003F5C] mb-2">Pedro</h3>
-                    <p class="text-md text-gray-500 mb-6">Foco em OPA</p>
-                    <div class="donut-chart-container mb-6">
-                        <canvas id="pedroDonut"></canvas>
-                    </div>
-                    <div class="space-y-2 text-left w-full">
-                        <p class="text-lg"><strong class="text-[#BC5090]">Nota OPA:</strong> 4.52</p>
-                        <p class="text-lg"><strong class="text-[#BC5090]">TMA OPA:</strong> 51.6 min</p>
-                        <p class="text-lg"><strong class="text-[#BC5090]">OS IXC:</strong> 211</p>
-                    </div>
-                </div>
 
-                <div class="card text-center flex flex-col justify-between items-center p-6">
-                    <h3 class="text-2xl font-bold text-[#003F5C] mb-2">Vinicius</h3>
-                    <p class="text-md text-gray-500 mb-6">Líder em Qualidade e IXC</p>
-                    <div class="donut-chart-container mb-6">
-                        <canvas id="viniciusDonut"></canvas>
-                    </div>
-                    <div class="space-y-2 text-left w-full">
-                        <p class="text-lg"><strong class="text-[#EF5675]">Nota OPA:</strong> 4.55</p>
-                        <p class="text-lg"><strong class="text-[#EF5675]">TMA OPA:</strong> 73.2 min</p>
-                        <p class="text-lg"><strong class="text-[#EF5675]">OS IXC:</strong> 211</p>
-                    </div>
-                </div>
-
-                <div class="card text-center flex flex-col justify-between items-center p-6">
-                    <div>
-                        <h3 class="text-2xl font-bold text-[#003F5C] mb-2">Paulo</h3>
-                        <p class="text-md text-gray-500 mb-6">Líder em Produtividade OS</p>
-                        <div class="donut-chart-container mb-6">
-                            <canvas id="pauloDonut"></canvas>
-                        </div>
-                    </div>
-                    <div class="space-y-2 text-left w-full">
-                        <p class="text-lg"><strong class="text-[#FFA600]">Nota OPA:</strong> 4.47</p>
-                        <p class="text-lg"><strong class="text-[#FFA600]">TMA OPA:</strong> 71.4 min</p>
-                        <p class="text-lg"><strong class="text-[#FFA600]">OS IXC:</strong> 227</p>
-                    </div>
-                </div>
-
-                <div class="card text-center flex flex-col justify-between items-center p-6">
-                    <div>
-                        <h3 class="text-2xl font-bold text-[#003F5C] mb-2">Ricardo</h3>
-                        <p class="text-md text-gray-500 mb-6">Líder em Eficiência</p>
-                        <div class="donut-chart-container mb-6">
-                            <canvas id="ricardoDonut"></canvas>
-                        </div>
-                    </div>
-                    <div class="space-y-2 text-left w-full">
-                        <p class="text-lg"><strong class="text-[#7A5195]">Nota OPA:</strong> 4.48</p>
-                        <p class="text-lg"><strong class="text-[#7A5195]">TMA OPA:</strong> 47.6 min</p>
-                        <p class="text-lg"><strong class="text-[#7A5195]">OS IXC:</strong> 166</p>
-                    </div>
-                </div>
-
-                <div class="card text-center flex flex-col justify-between items-center p-6 bg-gray-50">
-                    <div>
-                        <h3 class="text-2xl font-bold text-gray-700 mb-2">Matheus</h3>
-                        <p class="text-md text-gray-500 mb-6">Alto volume multicanal</p>
-                        <div class="donut-chart-container mb-6">
-                            <canvas id="matheusDonut"></canvas>
-                        </div>
-                    </div>
-                    <div class="space-y-2 text-left w-full">
-                        <p class="text-lg"><strong class="text-gray-600">Nota OPA:</strong> 4.40</p>
-                        <p class="text-lg"><strong class="text-gray-600">TMA OPA:</strong> 63.1 min</p>
-                        <p class="text-lg"><strong class="text-gray-600">OS IXC:</strong> 289</p>
-                    </div>
-                </div>
-             </div>
-        </section>
-
-        <section id="recommendations" class="mb-20">
-            <h2 class="text-4xl font-bold text-center mb-10 text-[#003F5C]">Recomendações Estratégicas</h2>
-            <div class="flex flex-col items-center max-w-4xl mx-auto">
-                <div class="flow-step rounded-xl p-6 w-full text-center mb-6">
-                    <h3 class="font-bold text-xl mb-2">1. Sanar Lacunas de Dados</h3>
-                    <p class="text-md leading-relaxed">Implementar procedimentos rigorosos para garantir a captura completa e precisa de dados para todas as métricas relevantes, essencial para avaliações futuras.</p>
-                </div>
-                <div class="flow-arrow mb-6 animate-bounce">&#8595;</div>
-                <div class="flow-step rounded-xl p-6 w-full text-center mb-6">
-                    <h3 class="font-bold text-xl mb-2">2. Otimizar Carga de Trabalho</h3>
-                    <p class="text-md leading-relaxed">Realizar análise aprofundada da complexidade dos atendimentos e considerar o treinamento cruzado para aumentar a flexibilidade e o balanceamento entre os canais.</p>
-                </div>
-                <div class="flow-arrow mb-6 animate-bounce">&#8595;</div>
-                <div class="flow-step rounded-xl p-6 w-full text-center">
-                    <h3 class="font-bold text-xl mb-2">3. Disseminar Melhores Práticas</h3>
-                    <p class="text-md leading-relaxed">Investigar as técnicas de eficiência de Ricardo e de alta satisfação de Vinicius, transformando-as em programas de treinamento para toda a equipe.</p>
+        <!-- Gráficos Principais -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+            <div class="bg-slate-800 border border-slate-700 shadow-md rounded-lg p-6 card-glow">
+                <h3 class="text-xl font-semibold mb-4 text-center text-gray-300">Atendimentos por Tipo (OPA vs IXC)</h3>
+                <div class="chart-container">
+                    <canvas id="ticketsChart"></canvas>
                 </div>
             </div>
-        </section>
+            <div class="bg-slate-800 border border-slate-700 shadow-md rounded-lg p-6 card-glow">
+                <h3 class="text-xl font-semibold mb-4 text-center text-gray-300">Ordens de Serviço IXC</h3>
+                <div class="chart-container">
+                    <canvas id="osChart"></canvas>
+                </div>
+            </div>
+        </div>
 
+        <!-- Tabela de Dados e Gráfico de Nota -->
+        <div class="bg-slate-800 border border-slate-700 shadow-md rounded-lg p-6 card-glow">
+            <h2 class="text-xl font-semibold mb-4 text-gray-300">Dados Detalhados da Equipe</h2>
+            
+            <div class="mb-8">
+                <h3 class="text-xl font-semibold mb-4 text-center text-gray-300">Nota OPA por Colaborador</h3>
+                <div class="chart-container" style="height: 300px;">
+                    <canvas id="notaChart"></canvas>
+                </div>
+            </div>
+
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-slate-700">
+                    <thead class="bg-slate-700/50">
+                        <tr>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Atendente</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Atend. OPA</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Atend. IXC</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">OS IXC</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Nota OPA</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">TMA OPA (min)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="team-table-body" class="divide-y divide-slate-700">
+                        <!-- Linhas da tabela serão inseridas aqui pelo JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+             <div class="mt-6 text-center">
+                <button onclick="window.print()" class="bg-cyan-600 hover:bg-cyan-700 text-white font-bold py-2 px-6 rounded-lg shadow-lg hover:shadow-cyan-500/50 transition-all transform hover:scale-105">
+                    Salvar como PDF / Imprimir
+                </button>
+            </div>
+        </div>
     </div>
 
-    <footer class="text-center p-6 mt-12 bg-[#003F5C] text-white">
-        <p class="text-md">Relatório de Desempenho gerado em <span id="generation-date"></span>.</p>
-        <p class="text-sm text-gray-400 mt-2">Este é um documento de análise interna.</p>
-    </footer>
-
     <script>
-        document.getElementById('generation-date').textContent = new Date().toLocaleDateString('pt-BR');
+        // --- PASSO IMPORTANTE ---
+        // Antes de publicar, atualize os dados da sua equipe nesta seção.
+        // Basta alterar os números abaixo com os valores finais do mês.
+        const reportData = [
+            { id: 4, name: 'Pedro',    atendimentosOPA: 202, atendimentosIXC: 2,  osIXC: 211, notaOPA: 4.52, tmaOPA: 52 },
+            { id: 3, name: 'Vinicius', atendimentosOPA: 148, atendimentosIXC: 90, osIXC: 211, notaOPA: 4.55, tmaOPA: 73 },
+            { id: 1, name: 'Paulo',    atendimentosOPA: 120, atendimentosIXC: 5,  osIXC: 227, notaOPA: 4.47, tmaOPA: 71 },
+            { id: 5, name: 'Ricardo',  atendimentosOPA: 157, atendimentosIXC: 26, osIXC: 166, notaOPA: 4.48, tmaOPA: 48 },
+            { id: 2, name: 'Matheus',  atendimentosOPA: 170, atendimentosIXC: 50, osIXC: 186, notaOPA: 4.40, tmaOPA: 63 },
+            { id: 6, name: 'Robson',   atendimentosOPA: 150, atendimentosIXC: 10, osIXC: 190, notaOPA: 4.50, tmaOPA: 60 },
+        ];
 
-        const teamData = {
-            names: ['Pedro', 'Vinicius', 'Paulo', 'Ricardo', 'Matheus'],
-            opaTickets: [202, 148, 120, 157, 170],
-            ixcTickets: [2, 90, 5, 26, 50],
-            ixcOS: [211, 211, 227, 166, 289],
-            opaScore: [4.52, 4.55, 4.47, 4.48, 4.40],
-            opaTime: [51.63, 73.15, 71.35, 47.62, 63.08]
-        };
+        // --- O restante do código apenas exibe os dados acima ---
 
-        const colors = {
-            blue: '#003F5C',
-            purple: '#7A5195',
-            pink: '#BC5090',
-            red: '#EF5675',
-            orange: '#FF764A',
-            yellow: '#FFA600'
-        };
-        const palette = [colors.blue, colors.pink, colors.yellow, colors.purple, colors.red, colors.orange];
-        const opaColor = colors.blue;
-        const ixcColor = colors.pink;
-        
-        function wrapLabel(str, maxWidth) {
-            if (typeof str !== 'string' || str.length <= maxWidth) {
-                return str;
-            }
-            const words = str.split(' ');
-            const lines = [];
-            let currentLine = '';
-            for (const word of words) {
-                if ((currentLine + word).length > maxWidth && currentLine.length > 0) {
-                    lines.push(currentLine.trim());
-                    currentLine = '';
-                }
-                currentLine += word + ' ';
-            }
-            lines.push(currentLine.trim());
-            return lines;
+        function renderTable() {
+            const tableBody = document.getElementById('team-table-body');
+            tableBody.innerHTML = '';
+
+            reportData.forEach(member => {
+                const row = document.createElement('tr');
+                row.className = 'hover:bg-slate-700/50 transition-colors';
+                row.innerHTML = `
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-200">${member.name}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-300">${member.atendimentosOPA}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-300">${member.atendimentosIXC}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-300">${member.osIXC}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-300">${member.notaOPA}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-300">${member.tmaOPA}</td>
+                `;
+                tableBody.appendChild(row);
+            });
         }
 
-        const tooltipTitleCallback = (tooltipItems) => {
-            const item = tooltipItems[0];
-            let label = item.chart.data.labels[item.dataIndex];
-            if (Array.isArray(label)) {
-                return label.join(' ');
-            }
-            return label;
-        };
-        
-        const defaultChartOptions = {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                legend: {
-                    position: 'top',
-                    labels: {
-                        font: {
-                            size: 14
-                        }
-                    }
-                },
-                tooltip: {
-                    callbacks: {
-                        title: tooltipTitleCallback
-                    },
-                    bodyFont: {
-                        size: 14
-                    },
-                    titleFont: {
-                        size: 16,
-                        weight: 'bold'
-                    },
-                    padding: 12,
-                    boxPadding: 6,
-                    cornerRadius: 8
-                }
-            },
-            scales: {
-                x: {
-                    ticks: { 
-                        color: colors.blue,
-                        font: { size: 12 } 
-                    },
-                    grid: { display: false, drawBorder: false }
-                },
-                y: {
-                    ticks: { 
-                        color: colors.blue,
-                        font: { size: 12 } 
-                    },
-                    grid: { color: '#e0e6f0', drawBorder: false }
-                }
-            }
-        };
+        function renderSummary() {
+            const totalTickets = reportData.reduce((sum, m) => sum + m.atendimentosOPA + m.atendimentosIXC, 0);
+            const totalOs = reportData.reduce((sum, m) => sum + m.osIXC, 0);
+            const totalTma = reportData.reduce((sum, m) => sum + m.tmaOPA, 0);
+            const totalNota = reportData.reduce((sum, m) => sum + m.notaOPA, 0);
+            
+            const avgTma = reportData.length > 0 ? (totalTma / reportData.length).toFixed(0) : 0;
+            const avgNota = reportData.length > 0 ? (totalNota / reportData.length).toFixed(2) : 0.0;
 
-        new Chart(document.getElementById('stackedBarChart'), {
-            type: 'bar',
-            data: {
-                labels: teamData.names.map(name => wrapLabel(name, 12)),
-                datasets: [
-                    {
-                        label: 'Atendimentos OPA',
-                        data: teamData.opaTickets,
-                        backgroundColor: opaColor,
-                        borderRadius: 6
-                    },
-                    {
-                        label: 'Atendimentos IXC',
-                        data: teamData.ixcTickets,
-                        backgroundColor: ixcColor,
-                        borderRadius: 6
-                    }
-                ]
-            },
-            options: {
-                ...defaultChartOptions,
-                scales: {
-                    x: { stacked: true, ...defaultChartOptions.scales.x },
-                    y: { stacked: true, ...defaultChartOptions.scales.y, title: { display: true, text: 'Volume de Atendimentos', color: colors.blue, font: { size: 14, weight: 'bold' } } }
-                }
-            }
-        });
-        
-        new Chart(document.getElementById('horizontalBarChart'), {
-            type: 'bar',
-            data: {
-                labels: teamData.names.map(name => wrapLabel(name, 12)),
-                datasets: [{
-                    label: 'OS IXC Finalizadas',
-                    data: teamData.ixcOS,
-                    backgroundColor: palette,
-                    borderColor: 'white',
-                    borderWidth: 2,
-                    borderRadius: 6
-                }]
-            },
-            options: {
-                ...defaultChartOptions,
-                indexAxis: 'y',
-                plugins: {
-                    ...defaultChartOptions.plugins,
-                    legend: { display: false }
-                },
-                 scales: {
-                    x: { ...defaultChartOptions.scales.x, title: { display: true, text: 'Nº de Ordens de Serviço', color: colors.blue, font: { size: 14, weight: 'bold' } } },
-                    y: { ...defaultChartOptions.scales.y }
-                }
-            }
-        });
+            document.getElementById('total-tickets').textContent = totalTickets;
+            document.getElementById('total-os').textContent = totalOs;
+            document.getElementById('avg-tma').textContent = avgTma;
+            document.getElementById('avg-nota').textContent = avgNota;
+        }
 
-        new Chart(document.getElementById('bubbleChart'), {
-            type: 'bubble',
-            data: {
-                datasets: teamData.names.map((name, i) => ({
-                    label: name,
-                    data: [{
-                        x: teamData.opaTime[i],
-                        y: teamData.opaScore[i],
-                        r: teamData.opaTickets[i] / 10 
-                    }],
-                    backgroundColor: palette[i % palette.length] + 'B0', 
-                    borderColor: palette[i % palette.length],
-                    borderWidth: 2
-                }))
-            },
-            options: {
-                ...defaultChartOptions,
-                plugins: {
-                     ...defaultChartOptions.plugins,
-                    legend: { position: 'bottom', labels: { usePointStyle: true } }
-                },
+        function renderCharts() {
+            const labels = reportData.map(m => m.name);
+            const chartGridColor = 'rgba(255, 255, 255, 0.1)';
+            const chartLabelColor = '#9ca3af';
+
+            const chartOptions = {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { labels: { color: chartLabelColor } } },
                 scales: {
-                    x: { ...defaultChartOptions.scales.x, title: { display: true, text: 'Tempo Médio de Atendimento (minutos)', color: colors.blue, font: { size: 14, weight: 'bold' } } },
-                    y: { ...defaultChartOptions.scales.y, title: { display: true, text: 'Nota OPA (Qualidade)', color: colors.blue, font: { size: 14, weight: 'bold' } }, min: 4.3, max: 4.6 }
+                    x: {
+                        stacked: true,
+                        ticks: { color: chartLabelColor },
+                        grid: { color: chartGridColor }
+                    },
+                    y: {
+                        stacked: true,
+                        beginAtZero: true,
+                        ticks: { color: chartLabelColor },
+                        grid: { color: chartGridColor }
+                    }
                 }
-            }
-        });
-        
-        const createDonutChart = (canvasId, opa, ixc) => {
-            new Chart(document.getElementById(canvasId), {
-                type: 'doughnut',
+            };
+
+            const ctxTickets = document.getElementById('ticketsChart').getContext('2d');
+            new Chart(ctxTickets, {
+                type: 'bar',
                 data: {
-                    labels: ['OPA', 'IXC'],
-                    datasets: [{
-                        data: [opa, ixc],
-                        backgroundColor: [opaColor, ixcColor],
-                        borderColor: '#ffffff',
-                        borderWidth: 2
-                    }]
+                    labels: labels,
+                    datasets: [
+                        { label: 'Atendimentos OPA', data: reportData.map(m => m.atendimentosOPA), backgroundColor: 'rgba(34, 211, 238, 0.7)' },
+                        { label: 'Atendimentos IXC', data: reportData.map(m => m.atendimentosIXC), backgroundColor: 'rgba(20, 184, 166, 0.7)' }
+                    ]
                 },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            display: false
-                        },
-                        tooltip: {
-                            callbacks: {
-                                title: tooltipTitleCallback,
-                                label: function(context) {
-                                    let label = context.label || '';
-                                    if (label) {
-                                        label += ': ';
-                                    }
-                                    if (context.parsed !== null) {
-                                        label += context.parsed;
-                                    }
-                                    return label;
-                                }
-                            },
-                            bodyFont: {
-                                size: 12
-                            },
-                            titleFont: {
-                                size: 14,
-                                weight: 'bold'
-                            },
-                            padding: 10,
-                            boxPadding: 5,
-                            cornerRadius: 6
-                        }
-                    }
-                }
+                options: chartOptions
             });
-        };
-        
-        createDonutChart('pedroDonut', teamData.opaTickets[0], teamData.ixcTickets[0]);
-        createDonutChart('viniciusDonut', teamData.opaTickets[1], teamData.ixcTickets[1]);
-        createDonutChart('pauloDonut', teamData.opaTickets[2], teamData.ixcTickets[2]);
-        createDonutChart('ricardoDonut', teamData.opaTickets[3], teamData.ixcTickets[3]);
-        createDonutChart('matheusDonut', teamData.opaTickets[4], teamData.ixcTickets[4]);
 
+            const ctxOs = document.getElementById('osChart').getContext('2d');
+            new Chart(ctxOs, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{ label: 'Ordens de Serviço IXC', data: reportData.map(m => m.osIXC), backgroundColor: 'rgba(245, 158, 11, 0.7)' }]
+                },
+                options: { ...chartOptions, scales: { ...chartOptions.scales, x: {...chartOptions.scales.x, stacked: false}, y: {...chartOptions.scales.y, stacked: false}} }
+            });
+
+            const ctxNota = document.getElementById('notaChart').getContext('2d');
+            new Chart(ctxNota, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{ label: 'Nota OPA', data: reportData.map(m => m.notaOPA), backgroundColor: 'rgba(168, 85, 247, 0.7)' }]
+                },
+                options: { ...chartOptions, scales: { ...chartOptions.scales, x: {...chartOptions.scales.x, stacked: false}, y: {...chartOptions.scales.y, stacked: false, max: 5}} }
+            });
+        }
+        
+        window.onload = function() {
+            renderTable();
+            renderSummary();
+            renderCharts();
+        };
     </script>
 </body>
 </html>
