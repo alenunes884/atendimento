@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Painel de Suporte - Internet Mais/Freeway (Apresentação)</title>
+    <title>Painel Avançado de Suporte - Internet Mais/Freeway</title>
     <!-- Incluindo o Tailwind CSS para um design moderno -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Incluindo a biblioteca Chart.js para os gráficos -->
@@ -14,93 +14,96 @@
     <style>
         body {
             font-family: 'Inter', sans-serif;
+            /* Imagem de fundo com overlay escuro para legibilidade */
+            background-image: linear-gradient(rgba(14, 24, 45, 0.85), rgba(14, 24, 45, 0.85)), url(https://i.ibb.co/Gv4P6xRL/Logo-internet-MAIS.png);
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
         }
         .chart-container {
             position: relative;
             height: 350px;
             width: 100%;
         }
-        .card-glow {
-            transition: box-shadow 0.3s ease-in-out;
+        /* Efeito de vidro fosco nos cards */
+        .card-glass {
+            background-color: rgba(29, 41, 62, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: box-shadow 0.3s ease-in-out, transform 0.3s ease-in-out;
         }
-        .card-glow:hover {
-            box-shadow: 0 0 15px rgba(56, 189, 248, 0.2);
+        .card-glass:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 20px rgba(0, 103, 169, 0.4);
+        }
+        .data-bar-container {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+            width: 100%;
+            height: 20px;
+        }
+        .data-bar {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.5s ease-in-out;
         }
     </style>
 </head>
-<body class="bg-slate-900 text-gray-200">
+<body class="text-gray-200">
 
     <div class="container mx-auto p-4 sm:p-6 lg:p-8">
         <!-- Cabeçalho -->
-        <header class="bg-gradient-to-r from-slate-800 to-slate-900 border border-slate-700 shadow-lg rounded-lg p-6 mb-8">
-            <h1 class="text-2xl sm:text-3xl font-bold text-white">Relatório da Equipe de Suporte</h1>
-            <p class="text-gray-400 mt-1">Internet Mais / Freeway</p>
-            
-            <!-- 
-            +----------------------------------+
-            |                                  |
-            |   <<<< EDITE O MÊS AQUI >>>>     |
-            |                                  |
-            +----------------------------------+
-            -->
-            <p id="report-month" class="text-lg font-semibold text-cyan-400 mt-2">Relatório de Julho/2025</p>
-
+        <header class="bg-transparent p-6 mb-8 flex justify-between items-center">
+            <div>
+                <h1 class="text-2xl sm:text-3xl font-bold text-white">Relatório Avançado de Performance</h1>
+                <!-- 
+                +----------------------------------+
+                |                                  |
+                |   <<<< EDITE O MÊS AQUI >>>>     |
+                |                                  |
+                +----------------------------------+
+                -->
+                <p id="report-month" class="text-lg font-semibold text-[#0067a9] mt-2">Relatório de Julho/2025</p>
+            </div>
+            <img src="https://i.ibb.co/Gv4P6xRL/Logo-internet-MAIS.png" alt="Logo Internet Mais" class="h-16">
         </header>
 
-        <!-- Resumo Geral -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-            <!-- Card Total Atendimentos -->
-            <div class="bg-slate-800 border border-slate-700 shadow-md rounded-lg p-6 flex items-center card-glow">
-                <div class="bg-cyan-900/50 p-3 rounded-full mr-4">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-cyan-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
-                </div>
-                <div>
-                    <h3 class="text-lg font-semibold text-gray-400">Total Atendimentos</h3>
-                    <p id="total-tickets" class="text-3xl font-bold text-cyan-400 mt-1">0</p>
+        <!-- Destaques de Performance -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <!-- Medidor de Nota Média -->
+            <div class="lg:col-span-2 card-glass shadow-md rounded-lg p-6 flex flex-col items-center justify-center">
+                <h3 class="text-xl font-semibold text-gray-300 mb-2">Média Geral da Nota OPA</h3>
+                <div class="relative w-full" style="height: 150px;">
+                    <canvas id="satisfactionGauge"></canvas>
                 </div>
             </div>
-            <!-- Card Total OS IXC -->
-            <div class="bg-slate-800 border border-slate-700 shadow-md rounded-lg p-6 flex items-center card-glow">
-                 <div class="bg-teal-900/50 p-3 rounded-full mr-4">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-teal-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" /></svg>
-                </div>
-                <div>
-                    <h3 class="text-lg font-semibold text-gray-400">Total OS IXC</h3>
-                    <p id="total-os" class="text-3xl font-bold text-teal-300 mt-1">0</p>
-                </div>
+            <!-- Top Performer Atendimentos -->
+            <div class="card-glass shadow-md rounded-lg p-6 flex flex-col items-center justify-center text-center">
+                <h3 class="text-lg font-semibold text-gray-400 mb-2">Top Performer (Atendimentos)</h3>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-[#99cc33] mb-2" viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>
+                <p id="top-performer-tickets" class="text-2xl font-bold text-white">N/A</p>
+                <p id="top-performer-tickets-value" class="text-[#99cc33] font-semibold">0 atendimentos</p>
             </div>
-            <!-- Card Média Nota OPA -->
-            <div class="bg-slate-800 border border-slate-700 shadow-md rounded-lg p-6 flex items-center card-glow">
-                <div class="bg-sky-900/50 p-3 rounded-full mr-4">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-sky-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.196-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.783-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" /></svg>
-                </div>
-                <div>
-                    <h3 class="text-lg font-semibold text-gray-400">Média Nota OPA</h3>
-                    <p id="avg-nota" class="text-3xl font-bold text-sky-400 mt-1">0.00</p>
-                </div>
-            </div>
-            <!-- Card Média TMA OPA -->
-            <div class="bg-slate-800 border border-slate-700 shadow-md rounded-lg p-6 flex items-center card-glow">
-                <div class="bg-purple-900/50 p-3 rounded-full mr-4">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                </div>
-                <div>
-                    <h3 class="text-lg font-semibold text-gray-400">Média TMA OPA</h3>
-                    <p id="avg-tma" class="text-3xl font-bold text-purple-400 mt-1">0</p>
-                    <span class="text-sm text-gray-500">minutos</span>
-                </div>
+            <!-- Top Performer Nota -->
+            <div class="card-glass shadow-md rounded-lg p-6 flex flex-col items-center justify-center text-center">
+                <h3 class="text-lg font-semibold text-gray-400 mb-2">Top Performer (Nota OPA)</h3>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-[#0067a9] mb-2" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" /></svg>
+                <p id="top-performer-nota" class="text-2xl font-bold text-white">N/A</p>
+                <p id="top-performer-nota-value" class="text-[#0067a9] font-semibold">Nota 0.00</p>
             </div>
         </div>
 
         <!-- Gráficos Principais -->
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-            <div class="bg-slate-800 border border-slate-700 shadow-md rounded-lg p-6 card-glow">
+            <div class="card-glass shadow-md rounded-lg p-6">
                 <h3 class="text-xl font-semibold mb-4 text-center text-gray-300">Atendimentos por Tipo (OPA vs IXC)</h3>
                 <div class="chart-container">
                     <canvas id="ticketsChart"></canvas>
                 </div>
             </div>
-            <div class="bg-slate-800 border border-slate-700 shadow-md rounded-lg p-6 card-glow">
+            <div class="card-glass shadow-md rounded-lg p-6">
                 <h3 class="text-xl font-semibold mb-4 text-center text-gray-300">Ordens de Serviço IXC</h3>
                 <div class="chart-container">
                     <canvas id="osChart"></canvas>
@@ -108,27 +111,19 @@
             </div>
         </div>
 
-        <!-- Tabela de Dados e Gráfico de Nota -->
-        <div class="bg-slate-800 border border-slate-700 shadow-md rounded-lg p-6 card-glow">
-            <h2 class="text-xl font-semibold mb-4 text-gray-300">Dados Detalhados da Equipe</h2>
-            
-            <div class="mb-8">
-                <h3 class="text-xl font-semibold mb-4 text-center text-gray-300">Nota OPA por Colaborador</h3>
-                <div class="chart-container" style="height: 300px;">
-                    <canvas id="notaChart"></canvas>
-                </div>
-            </div>
-
+        <!-- Tabela de Dados -->
+        <div class="card-glass shadow-md rounded-lg p-6">
+            <h2 class="text-xl font-semibold mb-4 text-gray-300">Análise Detalhada da Equipe</h2>
             <div class="overflow-x-auto">
-                <table class="min-w-full divide-y divide-slate-700">
-                    <thead class="bg-slate-700/50">
+                <table class="min-w-full">
+                    <thead>
                         <tr>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Atendente</th>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Atend. OPA</th>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Atend. IXC</th>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">OS IXC</th>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Nota OPA</th>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">TMA OPA (min)</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Atendente</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Atend. OPA</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Atend. IXC</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">OS IXC</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Nota OPA</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">TMA OPA (min)</th>
                         </tr>
                     </thead>
                     <tbody id="team-table-body" class="divide-y divide-slate-700">
@@ -136,18 +131,12 @@
                     </tbody>
                 </table>
             </div>
-             <div class="mt-6 text-center">
-                <button onclick="window.print()" class="bg-cyan-600 hover:bg-cyan-700 text-white font-bold py-2 px-6 rounded-lg shadow-lg hover:shadow-cyan-500/50 transition-all transform hover:scale-105">
-                    Salvar como PDF / Imprimir
-                </button>
-            </div>
         </div>
     </div>
 
     <script>
         // --- PASSO IMPORTANTE ---
         // Antes de publicar, atualize os dados da sua equipe nesta seção.
-        // Basta alterar os números abaixo com os valores finais do mês.
         const reportData = [
             { id: 4, name: 'Pedro',    atendimentosOPA: 212, atendimentosIXC: 36, osIXC: 18, notaOPA: 4.65, tmaOPA: 72 },
             { id: 3, name: 'Vinicius', atendimentosOPA: 139, atendimentosIXC: 53, osIXC: 16, notaOPA: 4.53, tmaOPA: 59 },
@@ -159,38 +148,83 @@
 
         // --- O restante do código apenas exibe os dados acima ---
 
-        function renderTable() {
+        function renderTable(maxValues) {
             const tableBody = document.getElementById('team-table-body');
             tableBody.innerHTML = '';
 
             reportData.forEach(member => {
                 const row = document.createElement('tr');
                 row.className = 'hover:bg-slate-700/50 transition-colors';
+                
+                const createDataBar = (value, maxValue, color) => {
+                    const percentage = maxValue > 0 ? (value / maxValue) * 100 : 0;
+                    return `
+                        <div class="flex items-center">
+                            <span class="mr-2 w-8 text-right font-semibold">${value}</span>
+                            <div class="data-bar-container flex-1">
+                                <div class="data-bar" style="width: ${percentage}%; background-color: ${color};"></div>
+                            </div>
+                        </div>
+                    `;
+                };
+
                 row.innerHTML = `
                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-200">${member.name}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-300">${member.atendimentosOPA}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-300">${member.atendimentosIXC}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-300">${member.osIXC}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-300">${member.notaOPA}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-300">${member.tmaOPA}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-300">${createDataBar(member.atendimentosOPA, maxValues.atendimentosOPA, '#0067a9')}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-300">${createDataBar(member.atendimentosIXC, maxValues.atendimentosIXC, '#99cc33')}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-300">${createDataBar(member.osIXC, maxValues.osIXC, '#00a99d')}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-300">${createDataBar(member.notaOPA.toFixed(2), 5, '#0067a9')}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-300">${createDataBar(member.tmaOPA, maxValues.tmaOPA, '#99cc33')}</td>
                 `;
                 tableBody.appendChild(row);
             });
         }
 
-        function renderSummary() {
-            const totalTickets = reportData.reduce((sum, m) => sum + m.atendimentosOPA + m.atendimentosIXC, 0);
-            const totalOs = reportData.reduce((sum, m) => sum + m.osIXC, 0);
-            const totalTma = reportData.reduce((sum, m) => sum + m.tmaOPA, 0);
-            const totalNota = reportData.reduce((sum, m) => sum + m.notaOPA, 0);
-            
-            const avgTma = reportData.length > 0 ? (totalTma / reportData.length).toFixed(0) : 0;
-            const avgNota = reportData.length > 0 ? (totalNota / reportData.length).toFixed(2) : 0.0;
+        function renderHighlights(avgNota) {
+            const dataWithTotal = reportData.map(m => ({...m, totalAtendimentos: m.atendimentosOPA + m.atendimentosIXC}));
 
-            document.getElementById('total-tickets').textContent = totalTickets;
-            document.getElementById('total-os').textContent = totalOs;
-            document.getElementById('avg-tma').textContent = avgTma;
-            document.getElementById('avg-nota').textContent = avgNota;
+            const topTickets = dataWithTotal.reduce((prev, current) => (prev.totalAtendimentos > current.totalAtendimentos) ? prev : current);
+            document.getElementById('top-performer-tickets').textContent = topTickets.name;
+            document.getElementById('top-performer-tickets-value').textContent = `${topTickets.totalAtendimentos} atendimentos`;
+
+            const topNota = reportData.reduce((prev, current) => (prev.notaOPA > current.notaOPA) ? prev : current);
+            document.getElementById('top-performer-nota').textContent = topNota.name;
+            document.getElementById('top-performer-nota-value').textContent = `Nota ${topNota.notaOPA.toFixed(2)}`;
+            
+            const ctxGauge = document.getElementById('satisfactionGauge').getContext('2d');
+            new Chart(ctxGauge, {
+                type: 'doughnut',
+                data: {
+                    datasets: [{
+                        data: [avgNota, 5 - avgNota],
+                        backgroundColor: ['#0067a9', 'rgba(255, 255, 255, 0.1)'],
+                        borderColor: 'transparent',
+                        circumference: 180,
+                        rotation: 270,
+                    }]
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: false, cutout: '70%',
+                    plugins: { legend: { display: false }, tooltip: { enabled: false } }
+                },
+                plugins: [{
+                    id: 'gaugeText',
+                    beforeDraw(chart) {
+                        const { ctx, width, height } = chart;
+                        ctx.restore();
+                        const fontSize = (height / 114).toFixed(2);
+                        ctx.font = `bold ${fontSize}em Inter, sans-serif`;
+                        ctx.textBaseline = 'middle';
+                        ctx.fillStyle = '#0067a9';
+
+                        const text = avgNota.toFixed(2);
+                        const textX = Math.round((width - ctx.measureText(text).width) / 2);
+                        const textY = height / 1.5;
+                        ctx.fillText(text, textX, textY);
+                        ctx.save();
+                    }
+                }]
+            });
         }
 
         function renderCharts() {
@@ -199,21 +233,11 @@
             const chartLabelColor = '#9ca3af';
 
             const chartOptions = {
-                responsive: true,
-                maintainAspectRatio: false,
+                responsive: true, maintainAspectRatio: false,
                 plugins: { legend: { labels: { color: chartLabelColor } } },
                 scales: {
-                    x: {
-                        stacked: true,
-                        ticks: { color: chartLabelColor },
-                        grid: { color: chartGridColor }
-                    },
-                    y: {
-                        stacked: true,
-                        beginAtZero: true,
-                        ticks: { color: chartLabelColor },
-                        grid: { color: chartGridColor }
-                    }
+                    x: { ticks: { color: chartLabelColor }, grid: { color: chartGridColor } },
+                    y: { beginAtZero: true, ticks: { color: chartLabelColor }, grid: { color: chartGridColor } }
                 }
             };
 
@@ -223,8 +247,8 @@
                 data: {
                     labels: labels,
                     datasets: [
-                        { label: 'Atendimentos OPA', data: reportData.map(m => m.atendimentosOPA), backgroundColor: 'rgba(34, 211, 238, 0.7)' },
-                        { label: 'Atendimentos IXC', data: reportData.map(m => m.atendimentosIXC), backgroundColor: 'rgba(20, 184, 166, 0.7)' }
+                        { label: 'Atendimentos OPA', data: reportData.map(m => m.atendimentosOPA), backgroundColor: '#0067a9', stack: 'Stack 0' },
+                        { label: 'Atendimentos IXC', data: reportData.map(m => m.atendimentosIXC), backgroundColor: '#99cc33', stack: 'Stack 0' }
                     ]
                 },
                 options: chartOptions
@@ -233,27 +257,23 @@
             const ctxOs = document.getElementById('osChart').getContext('2d');
             new Chart(ctxOs, {
                 type: 'bar',
-                data: {
-                    labels: labels,
-                    datasets: [{ label: 'Ordens de Serviço IXC', data: reportData.map(m => m.osIXC), backgroundColor: 'rgba(245, 158, 11, 0.7)' }]
-                },
-                options: { ...chartOptions, scales: { ...chartOptions.scales, x: {...chartOptions.scales.x, stacked: false}, y: {...chartOptions.scales.y, stacked: false}} }
-            });
-
-            const ctxNota = document.getElementById('notaChart').getContext('2d');
-            new Chart(ctxNota, {
-                type: 'bar',
-                data: {
-                    labels: labels,
-                    datasets: [{ label: 'Nota OPA', data: reportData.map(m => m.notaOPA), backgroundColor: 'rgba(168, 85, 247, 0.7)' }]
-                },
-                options: { ...chartOptions, scales: { ...chartOptions.scales, x: {...chartOptions.scales.x, stacked: false}, y: {...chartOptions.scales.y, stacked: false, max: 5}} }
+                data: { labels: labels, datasets: [{ label: 'Ordens de Serviço IXC', data: reportData.map(m => m.osIXC), backgroundColor: '#00a99d' }] },
+                options: chartOptions
             });
         }
         
         window.onload = function() {
-            renderTable();
-            renderSummary();
+            const maxValues = {
+                atendimentosOPA: Math.max(...reportData.map(m => m.atendimentosOPA)),
+                atendimentosIXC: Math.max(...reportData.map(m => m.atendimentosIXC)),
+                osIXC: Math.max(...reportData.map(m => m.osIXC)),
+                tmaOPA: Math.max(...reportData.map(m => m.tmaOPA)),
+            };
+
+            const avgNota = reportData.length > 0 ? (reportData.reduce((sum, m) => sum + m.notaOPA, 0) / reportData.length) : 0;
+
+            renderTable(maxValues);
+            renderHighlights(avgNota);
             renderCharts();
         };
     </script>
